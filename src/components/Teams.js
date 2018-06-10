@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 
 const TeamWrapper = styled.div`
   grid-column: 1;
@@ -26,13 +27,17 @@ const TeamListItem = styled.li`
   justify-content: center;
   font-size: 22px;
   border-radius: 11px;
-  transition: box-shadow .05s ease-in-out;
+  transition: box-shadow 0.05s ease-in-out;
   &:hover {
     box-shadow: 0px 0px 0px 4px #767676;
   }
 `;
 
-const team = ({ id, letter }) => <TeamListItem key={`team-${id}`}>{letter}</TeamListItem>;
+const team = ({ id, letter }) => (
+  <Link to={`/view-team/${id}`} key={`team-${id}`}>
+    <TeamListItem>{letter}</TeamListItem>
+  </Link>
+);
 
 export default ({ teams }) => (
   <TeamWrapper>

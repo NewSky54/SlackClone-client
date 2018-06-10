@@ -1,7 +1,7 @@
 import React from "react";
 import { graphql } from "react-apollo";
 import gql from "graphql-tag";
-import _ from "lodash";
+import { findIndex } from "lodash";
 import decode from "jwt-decode";
 import Channels from "../components/Channels";
 import Teams from "../components/Teams";
@@ -11,7 +11,10 @@ const Sidebar = ({ data: { loading, allTeams }, currentTeamId }) => {
     return null;
   }
 
-  const teamIdx = _.findIndex(allTeams, ["id", currentTeamId]);
+  // Checking for a valid currentTeamId,
+  //   if true - look up that currentTeamId in allTeams,
+  //   if false - get the element at the zeroth index.
+  const teamIdx = currentTeamId ? findIndex(allTeams, ["id", parseInt(currentTeamId, 10)]) : 0;
   const team = allTeams[teamIdx];
   let username = "";
   try {
