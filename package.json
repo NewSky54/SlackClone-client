@@ -1,0 +1,32 @@
+{
+  "name": "SlackClone-Client",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "apollo-cache-inmemory": "^1.2.2",
+    "apollo-client": "^2.3.2",
+    "apollo-link": "^1.2.2",
+    "apollo-link-context": "^1.0.8",
+    "apollo-link-http": "^1.5.4",
+    "graphql": "^0.13.2",
+    "graphql-tag": "^2.9.2",
+    "jwt-decode": "^2.2.0",
+    "lodash": "^4.17.10",
+    "mobx": "^4.3.1",
+    "mobx-react": "^5.2.0",
+    "react": "^16.4.0",
+    "react-apollo": "^2.1.4",
+    "react-dom": "^16.4.0",
+    "react-router-dom": "^4.2.2",
+    "react-scripts": "1.1.4",
+    "semantic-ui-css": "^2.3.1",
+    "semantic-ui-react": "^0.81.1",
+    "styled-components": "^3.3.2"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  }
+}
