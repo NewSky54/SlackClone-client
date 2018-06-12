@@ -8,7 +8,7 @@ import { setContext } from "apollo-link-context";
 import { ApolloLink } from "apollo-link";
 import "semantic-ui-css/semantic.min.css";
 
-import Routes from "./routes";
+import Routes from "./routes/index";
 import registerServiceWorker from "./registerServiceWorker";
 
 const httpLink = createHttpLink({ uri: "http://localhost:8081/graphql" });

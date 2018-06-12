@@ -5,12 +5,11 @@ import Register from "./Register";
 import Login from "./Login";
 import CreateTeam from "./CreateTeam";
 import ViewTeam from "./ViewTeam";
-import decode from 'jwt-decode';
-
+import decode from "jwt-decode";
 
 const isAuthenticated = () => {
-  const token = localStorage.getItem('token');
-  const refreshToken = localStorage.getItem('refreshToken');
+  const token = localStorage.getItem("token");
+  const refreshToken = localStorage.getItem("refreshToken");
   try {
     decode(token);
     decode(refreshToken);
@@ -18,7 +17,7 @@ const isAuthenticated = () => {
     return false;
   }
   return true;
-}
+};
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route
@@ -29,7 +28,7 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
   />
 );
 
-export default () => (
+const Routes = () => (
   <BrowserRouter>
     <Switch>
       <Route path="/" exact component={Home} />
@@ -40,3 +39,4 @@ export default () => (
     </Switch>
   </BrowserRouter>
 );
+export default Routes;
