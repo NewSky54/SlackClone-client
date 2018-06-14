@@ -1,13 +1,10 @@
 import React from "react";
-import { graphql } from "react-apollo";
 import decode from "jwt-decode";
-import { findIndex } from "lodash";
 import Channels from "../components/Channels";
 import Teams from "../components/Teams";
 import AddChannelModal from "../components/AddChannelModal";
-import { allTeamsQuery } from "../graphql/team";
 
-class Sidebar extends React.Component {
+export default class Sidebar extends React.Component {
   state = {
     openAddChannelModal: false
   };
@@ -19,19 +16,8 @@ class Sidebar extends React.Component {
   };
 
   render() {
-    const {
-      data: { loading, allTeams },
-      currentTeamId
-    } = this.props;
-    if (loading) {
-      return null;
-    }
-    // Checking for a valid currentTeamId,
-    //   if true - look up that currentTeamId in allTeams,
-    //   if false - get the element at the zeroth index.
-    const teamIdx = currentTeamId ? findIndex(allTeams, ["id", parseInt(currentTeamId, 10)]) : 0;
-    console.log("Sidebar.js, CurrentTeamId:", currentTeamId);
-    const team = allTeams[teamIdx];
+    const { teams, team } = this.props;
+
     let username = "";
     try {
       const token = localStorage.getItem("token");
@@ -40,13 +26,7 @@ class Sidebar extends React.Component {
     } catch (error) {}
 
     return [
-      <Teams
-        key="team-sidebar"
-        teams={allTeams.map(t => ({
-          id: t.id,
-          letter: t.name.charAt(0).toUpperCase()
-        }))}
-      />,
+      <Teams key="team-sidebar" teams={teams} />,
       <Channels
         key="channels-sidebar"
         teamName={team.name}
@@ -65,4 +45,3 @@ class Sidebar extends React.Component {
     ];
   }
 }
-export default graphql(allTeamsQuery)(Sidebar);
