@@ -24,7 +24,7 @@ const ViewTeam = ({
   const team = allTeams[teamIdx];
   const channelIdx = channelId ? findIndex(team.channels, ["id", parseInt(channelId, 10)]) : 0;
   const channel = team.channels[channelIdx];
-  
+
   return (
     <AppLayout>
       <Sidebar
@@ -34,7 +34,7 @@ const ViewTeam = ({
         }))}
         team={team}
       />
-      <Header channelName={channel.name}/>
+      <Header channelName={channel.name} />
       <Messages channelId={channel.id}>
         <ul className="message-list">
           <li />
