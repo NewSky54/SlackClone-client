@@ -8,20 +8,18 @@ import InvitePeopleModal from "../components/InvitePeopleModal";
 export default class Sidebar extends React.Component {
   state = {
     openAddChannelModal: false,
-    openInvitePeopleModal: false,
+    openInvitePeopleModal: false
   };
 
-  handleChannelClick = () => {
-    this.setState(state => ({
-      openAddChannelModal: !state.openAddChannelModal
-    }));
+  handleChannelClick = e => {
+    if (e) e.preventDefault();
+    this.setState(state => ({ openAddChannelModal: !state.openAddChannelModal }));
   };
-  
-  handleInvitePeopleClick = () => {
-    this.setState(state => ({
-      openInvitePeopleModal: !state.openInvitePeopleModal
-    }));
-  }
+
+  handleInvitePeopleClick = e => {
+    if (e) e.preventDefault();
+    this.setState(state => ({ openInvitePeopleModal: !state.openInvitePeopleModal }));
+  };
 
   render() {
     const { teams, team } = this.props;
