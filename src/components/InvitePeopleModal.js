@@ -74,7 +74,6 @@ export default compose(
         setSubmitting(false);
       } else {
         setSubmitting(false);
-        console.log('ERRORS:', normalizeErrors(errors))
         setErrors(normalizeErrors(errors));
       }
     }

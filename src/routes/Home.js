@@ -10,12 +10,12 @@ const Home = ({ data: { allUsers = [] } }) =>
       </div>
     );
   });
+  
 
 const allUsersQuery = gql`
   {
     allUsers {
       id
-      username
       email
     }
   }

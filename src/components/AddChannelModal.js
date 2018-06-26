@@ -3,8 +3,8 @@ import gql from "graphql-tag";
 import { Header, Form, Button, Modal, Input } from "semantic-ui-react";
 import { withFormik } from "formik";
 import { compose, graphql } from "react-apollo";
+import findIndex from 'lodash/findIndex';
 import { allTeamsQuery } from "../graphql/team";
-import { findIndex } from "lodash";
 
 const AddChannelModal = ({
   openChannel,
@@ -62,12 +62,15 @@ export default compose(
     handleSubmit: async (values, { props: { closeChannel, teamId, mutate }, setSubmitting }) => {
       await mutate({
         variables: { teamId, name: values.name },
-        createChannel: {
-          __typename: "Mutation",
-          channel: {
-            __typename: "Channel",
-            id: -1,
-            name: values.name
+        optimisticResponse: {
+          createChannel: {
+            __typename: "Mutation",
+            ok: true,
+            channel: {
+              __typename: "Channel",
+              id: -1,
+              name: values.name
+            }
           }
         },
         update: (store, { data: { createChannel } }) => {
@@ -79,6 +82,7 @@ export default compose(
           const data = store.readQuery({ query: allTeamsQuery });
           // Add our comment from the mutation to the end.
           const teamIdx = findIndex(data.allTeams, ["id", teamId]);
+          console.log("TEAMIDX", teamIdx);
           data.allTeams[teamIdx].channels.push(channel);
           // Write our data back to the cache.
           store.writeQuery({ query: allTeamsQuery, data });
