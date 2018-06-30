@@ -1,4 +1,4 @@
-export default errors => {
+export default errors => 
   errors.reduce((acc, cur) => {
     if (cur.path in acc) {
       acc[cur.path].push(cur.message);
@@ -7,4 +7,3 @@ export default errors => {
     }
     return acc;
   }, {}); 
-};

@@ -4,15 +4,16 @@ import { Header, Form, Button, Modal, Input } from "semantic-ui-react";
 import { withFormik } from "formik";
 import { compose, graphql } from "react-apollo";
 import normalizeErrors from "../normalizeErrors";
+
 const InvitePeopleModal = ({
   openChannel,
   closeChannel,
-  values,
+  values, // My form's values
   handleChange,
   handleBlur,
   handleSubmit,
   isSubmitting,
-  touched,
+  touched, // touched fields. Each key corresponds to a field that has been touched/visited.
   errors
 }) => (
   <Modal open={openChannel} onClose={closeChannel}>
@@ -29,7 +30,7 @@ const InvitePeopleModal = ({
             fluid
           />
         </Form.Field>
-        {touched.email && errors.email ? errors.email[0] : null}
+        {touched.email && errors.email ? errors.email : null}
         <Button.Group fluid>
           <Button disabled={isSubmitting} onClick={closeChannel}>
             Cancel
@@ -59,17 +60,19 @@ const addTeamMemberMutation = gql`
 export default compose(
   graphql(addTeamMemberMutation),
   withFormik({
+    // Transform outer props into form values
     mapPropsToValues: () => ({ email: "" }),
+    // Submission handler
     handleSubmit: async (
       values,
       { props: { closeChannel, teamId, mutate }, setSubmitting, setErrors }
     ) => {
+      // Update database with teamId and email
       const response = await mutate({
         variables: { teamId, email: values.email }
       });
       const { ok, errors } = response.data.addTeamMember;
       if (ok) {
-        console.log('OK:', normalizeErrors(ok))
         closeChannel();
         setSubmitting(false);
       } else {

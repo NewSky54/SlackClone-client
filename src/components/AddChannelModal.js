@@ -3,7 +3,7 @@ import gql from "graphql-tag";
 import { Header, Form, Button, Modal, Input } from "semantic-ui-react";
 import { withFormik } from "formik";
 import { compose, graphql } from "react-apollo";
-import findIndex from 'lodash/findIndex';
+import findIndex from "lodash/findIndex";
 import { allTeamsQuery } from "../graphql/team";
 
 const AddChannelModal = ({
@@ -57,11 +57,20 @@ const createChannelMutation = gql`
 
 export default compose(
   graphql(createChannelMutation),
+
+  // Why Formik over Redux-Forms?
+  //   • AccordingDan Abramov, form state is inherently ephemeral and local, so tracking it in Redux (or any kind of Flux library) is unnecessary
+  //   • Redux-Form calls your entire top-level Redux reducer multiple times ON EVERY SINGLE KEYSTROKE. This is fine for small apps, but as your Redux app grows, input latency will continue to increase if you use Redux-Form.
+  //   • Redux-Form is 22.5 kB minified gzipped (Formik is 7.8 kB)
   withFormik({
     mapPropsToValues: () => ({ name: "" }),
     handleSubmit: async (values, { props: { closeChannel, teamId, mutate }, setSubmitting }) => {
       await mutate({
+        // The 'variables' which will be used to execute the mutation operation.
+        // Should correspond to the variables that my mutation definition accepts.
         variables: { teamId, name: values.name },
+        // The optimistic response option allows me to make my mutations feel faster by
+        // simulating the result of your mutation in your UI before the mutation actually finishes.
         optimisticResponse: {
           createChannel: {
             __typename: "Mutation",
@@ -73,6 +82,7 @@ export default compose(
             }
           }
         },
+        // Using 'update' I can update my store based on my mutation’s result. I.e. Updating my cache
         update: (store, { data: { createChannel } }) => {
           const { ok, channel } = createChannel;
           if (!ok) {
@@ -82,7 +92,6 @@ export default compose(
           const data = store.readQuery({ query: allTeamsQuery });
           // Add our comment from the mutation to the end.
           const teamIdx = findIndex(data.allTeams, ["id", teamId]);
-          console.log("TEAMIDX", teamIdx);
           data.allTeams[teamIdx].channels.push(channel);
           // Write our data back to the cache.
           store.writeQuery({ query: allTeamsQuery, data });
