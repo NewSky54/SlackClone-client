@@ -6,4 +6,7 @@ export default styled.div`
   padding-top: 10px;
   padding-left: 20px;
   padding-right: 20px; 
+  display: flex;
+  flex-direction: column-reverse;
+  overflow-y: auto;
 `;
