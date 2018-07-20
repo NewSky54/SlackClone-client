@@ -23,11 +23,8 @@ class MessageContainer extends React.Component {
   }
 
   componentWillReceiveProps({ channelId }) {
-    console.log("ChannelId:", channelId);
     if (this.props.channelId !== channelId) {
-      if (this.unsubscribe) {
-        this.unsubscribe();
-      }
+      if (this.unsubscribe) this.unsubscribe();
       this.unsubscribe = this.subscribe(channelId);
     }
   }
@@ -37,6 +34,7 @@ class MessageContainer extends React.Component {
       document: newChannelMessageSubscription,
       variables: { channelId },
       updateQuery: (prev, { subscriptionData }) => {
+        console.log(subscriptionData);
         if (!subscriptionData) return prev;
         return {
           ...prev,
@@ -86,10 +84,10 @@ const messagesQuery = gql`
   }
 `;
 export default graphql(messagesQuery, {
-  variables: props => ({
-    channelId: props.channelId
-  }),
-  options: {
+  options: props => ({
+    variables: {
+      channelId: props.channelId
+    },
     fetchPolicy: "network-only"
-  }
+  })
 })(MessageContainer);
