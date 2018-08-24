@@ -34,7 +34,6 @@ class MessageContainer extends React.Component {
       document: newChannelMessageSubscription,
       variables: { channelId },
       updateQuery: (prev, { subscriptionData }) => {
-        console.log(subscriptionData);
         if (!subscriptionData) return prev;
         return {
           ...prev,

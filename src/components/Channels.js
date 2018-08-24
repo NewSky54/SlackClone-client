@@ -25,7 +25,7 @@ const PushLeft = styled.div`
 `;
 
 const SideBarListItem = styled.li`
-  paddding: 2px;
+  padding: 2px;
   padding-left: 10px;
   &:hover {
     background: #3e313c;
